@@ -2,6 +2,10 @@ input {
   margin: 5px;
 }
 
+button {
+  margin: 5px;
+}
+
 .center {
   margin: auto;
   width: 25%;
