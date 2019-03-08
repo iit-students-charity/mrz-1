@@ -1,6 +1,6 @@
 var binaryZero = '00000000';
 var bitCount = 8;
-var decimalLimit = Math.pow(2, bitCount);
+var decimalLimit = Math.pow(2, bitCount) - 1;
 
 $(document).ready(function () {
   $('#submit').click(function (e) {
@@ -8,17 +8,17 @@ $(document).ready(function () {
     var b = parseInt($('#input_b').val());
     var t = parseInt($('#input_t').val()) || 1;
     if (a > decimalLimit || b > decimalLimit) {
-      alert('Pleace input numbers less or equal to 256.');
+      alert('Pleace input numbers less or equal to 255.');
       $('#input_a').val("");
       $('#input_b').val("");
       return;
     }
-    var aBin = addTo8Bit(a.toString(2));
-    var bBin = addTo8Bit(b.toString(2));
-    var result = multiplyGradually(aBin, bBin);
+    var aBin = to8Bit(a.toString(2));
+    var bBin = to8Bit(b.toString(2));
+    multiplyAndBuildTable(aBin, bBin);
   })
 
-  function addTo8Bit(number) {
+  function to8Bit(number) {
     var diff = bitCount - number.length;
     for (var i = 0; i < diff; i++) {
       number = '0' + number;
@@ -26,27 +26,24 @@ $(document).ready(function () {
     return number;
   }
 
-  function multiplyGradually(first, second) {
+  function multiplyAndBuildTable(first, second) {
     var result = binaryZero;
     var multResult = binaryZero;
     for (var i = bitCount - 1; i >= 0; i--) {
       multResult = multiplyOneBit(first, second[i]);
       multResult = leftShift(multResult, bitCount - 1 - i);
-      result = sum(multResult, result);
-      doNothing();
+      result = add(multResult, result);
     }
     return result;
   }
-
-  function doNothing() {}
 
   function multiplyOneBit(binary, bit) {
     return bit == '0' ? binaryZero : binary;
   }
 
-  function sum(first, second) {
-    first = reverseString(first);
-    second = reverseString(second);
+  function add(first, second) {
+    first = reverse(first);
+    second = reverse(second);
     var remainder = 0;
     var subResult = [];
     var result = ''
@@ -58,10 +55,10 @@ $(document).ready(function () {
     if (remainder == '1') {
       result += '1';
     }
-    return reverseString(result);
+    return reverse(result);
   }
 
-  function reverseString(string) {
+  function reverse(string) {
     return string.split("").reverse().join("");
   }
 
@@ -86,16 +83,3 @@ $(document).ready(function () {
     return binary;
   }
 })
-
-//  mult one    sum R + p    shift R  ...
-// ---------------------------------------------------------------------------
-// A 00001100  A 00001100  A  00001100
-// B 00011011  B 00011011  B  00011011
-// R 00000000  R 00000000  R  00001100
-// -----------------------------------
-// p 00001100  R 00001100  R 000011000
-//                                     A  00001100  A  00001100  A   00001100
-//                                     B  00011011  B  00011011  B   00011011
-//                                     R 000011000  R 000011000  R 0001001000
-//                                     ---------R-----------------------------
-//                                     p  00001100  R 000100100  A 0000110000
