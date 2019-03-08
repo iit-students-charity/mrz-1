@@ -1,6 +1,6 @@
 var binaryZero = '00000000';
 var bitCount = 8;
-var decimalLimit = Math.pow(bitCount, 2);
+var decimalLimit = Math.pow(2, bitCount);
 
 $(document).ready(function () {
   $('#submit').click(function (e) {
@@ -31,11 +31,14 @@ $(document).ready(function () {
     var multResult = binaryZero;
     for (var i = bitCount - 1; i >= 0; i--) {
       multResult = multiplyOneBit(first, second[i]);
-      result = sum(result, multResult);
-      result = leftShift(result);
+      multResult = leftShift(multResult, bitCount - 1 - i);
+      result = sum(multResult, result);
+      doNothing();
     }
     return result;
   }
+
+  function doNothing() {}
 
   function multiplyOneBit(binary, bit) {
     return bit == '0' ? binaryZero : binary;
@@ -48,9 +51,12 @@ $(document).ready(function () {
     var subResult = [];
     var result = ''
     for (var i = 0; i < first.length; i++) {
-      subResult = addOneBit(first[i], second[i] || 0, remainder);
+      subResult = addOneBit(first[i], second[i] || '0', remainder);
       result += subResult[0];
       remainder = subResult[1];
+    }
+    if (remainder == '1') {
+      result += '1';
     }
     return reverseString(result);
   }
@@ -73,8 +79,11 @@ $(document).ready(function () {
     }
   }
 
-  function leftShift(binary) {
-    return binary + '0';
+  function leftShift(binary, count) {
+    for (var i = 0; i < count; i++) {
+      binary += '0';
+    }
+    return binary;
   }
 })
 
