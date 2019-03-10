@@ -8,11 +8,23 @@
     <script src="pipelining.js"></script>
   </head>
   <body>
-    <div class="center" align="right">
-      Input first decimal number: <input type="text" id="input_a" value="200"><br>
-      Input second decimal number: <input type="text" id="input_b" value="200"><br>
-      Input time factor: <input type="text" id="input_t" value="1"><br>
-      <button id="submit">Submit</button>
+    <div class="data_inputs">
+      <label for="input_bits">Number of bits</label><input type="text" class="input_field" id="input_bits" value="8"><br>
+      <label for="input_pairs_count">Number of pairs to multiply</label><input type="text" class="input_field" id="input_pairs_count"><br>
+    </div>
+
+    <div class="numbers_form" id="first_numbers">
+      <div class="form_label hidden">First numbers</div>
+    </div>
+    <div class="numbers_form" id="second_numbers">
+      <div class="form_label hidden">Second numbers</div>
+    </div>
+    <br>
+    <button id="submit" class="submit_button">Calculate</button>
+
+    <div class="table_form">
+      <table id="data_table" class='data_table'>
+      </table>
     </div>
   </body>
 </html>
