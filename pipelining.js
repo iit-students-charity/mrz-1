@@ -1,3 +1,15 @@
+/*
+
+Автор кода - студент группы 721701 Тесловский Александр Павлович.
+
+Вариант задания № 13: алгоритм вычисления произведения пары 8-разрядных чисел
+умножением с младших разрядов со сдвигом частичной суммы влево.
+
+Для упрощения реализации таблицы и динамической отрисовки элементов страницы
+была использована билиотека jQuery.
+
+*/
+
 $(document).ready(function () {
   var binaryZero = '00000000';
   var bitCount = 8;
@@ -163,7 +175,7 @@ $(document).ready(function () {
     table.append('<thead><tr>');
     head = $("#data_table > thead tr");
     for (var column = 0; column < columns + 2; column++) {
-      if (column == 1) { // remove this crutch
+      if (column == 1) { // remove this crutch (according to comment below)
         head.append('<th></th>');
         continue;
       }
@@ -175,7 +187,7 @@ $(document).ready(function () {
     }
     for (var row = 0; row < rows; row++) {
       tableRow = $("<tr>");
-      tableRow.append('<th>tact ' + (row + 1) + '<th>'); // need to use th created with tr
+      tableRow.append('<th>tact ' + (row + 1) + '<th>'); // need to use empty th created with tr
       table.append(tableRow);
       for (var column = 0; column < columns; column++) {
         number = row * columns + column;
