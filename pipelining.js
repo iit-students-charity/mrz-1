@@ -174,24 +174,24 @@ $(document).ready(function () {
     table.empty();
     table.append('<thead><tr>');
     head = $("#data_table > thead tr");
-    for (var column = 0; column < columns + 2; column++) {
-      if (column == 1) { // remove this crutch (according to comment below)
-        head.append('<th></th>');
-        continue;
-      }
+    for (var column = 0; column < columns + 1; column++) {
       if (column == 0) {
-        head.append('<th>tact</th>');
+        head.append('<th>tacts\\stages</th>');
         continue;
       }
-      head.append('<th> stage ' + (column - 1) + '</th>');
+      head.append('<th>stage ' + (column) + '</th>');
     }
     for (var row = 0; row < rows; row++) {
       tableRow = $("<tr>");
-      tableRow.append('<th>tact ' + (row + 1) + '<th>'); // need to use empty th created with tr
       table.append(tableRow);
-      for (var column = 0; column < columns; column++) {
-        number = row * columns + column;
-        tableRow.append($("<td id=\"" + number + "\">"));
+      for (var column = 0; column < columns + 1; column++) {
+        if (column == 0) {
+          tableRow.append($('<th>tact ' + (row + 1) + '</th>'));
+        }
+        else {
+          number = row * columns + column - 1;
+          tableRow.append($("<td id=\"" + number + "\">"));
+        }
       }
     }
   }
