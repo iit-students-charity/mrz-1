@@ -107,3 +107,10 @@ table.data_table thead {
 .hidden {
   display: none;
 }
+
+.result_list{
+  margin: auto;
+  width: 16%;
+  padding: 10px;
+  text-align: center;
+}

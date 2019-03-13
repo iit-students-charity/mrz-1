@@ -1,5 +1,4 @@
 /*
-
 Автор кода - студент группы 721701 Тесловский Александр Павлович.
 
 Вариант задания № 13: алгоритм вычисления произведения пары 8-разрядных чисел
@@ -7,7 +6,6 @@
 
 Для упрощения реализации таблицы и динамической отрисовки элементов страницы
 была использована билиотека jQuery.
-
 */
 
 $(document).ready(function () {
@@ -91,12 +89,16 @@ $(document).ready(function () {
       second_values.push(binaryValue);
     });
 
-    columns = bitCount;
-    rows = bitCount + pairsCount - 1;
+    var columns = bitCount;
+    var rows = bitCount + pairsCount - 1;
     buildTable(columns, rows);
+    var result = binaryZero;
+    var decimalResults = [];
     for (var i = 0; i < pairsCount; i++) {
-      multiplyAndAddToTable(first_values[i], second_values[i], i);
+      result = multiplyAndAddToTable(first_values[i], second_values[i], i);
+      decimalResults.push(parseInt(result, 2));
     }
+    printResults(decimalResults);
   })
 
   function toBitCount(number) {
@@ -116,7 +118,7 @@ $(document).ready(function () {
       multResult = leftShift(multResult, bitCount - 1 - i);
       result = add(multResult, result);
       position = (bitCount - 1 - i) * (bitCount + 1) + (offset * bitCount);
-      addToTable(result, position);
+      addToTable(multResult, result, position);
     }
     return result;
   }
@@ -196,7 +198,18 @@ $(document).ready(function () {
     }
   }
 
-  function addToTable(value, position) {
-    $("#" + position).text(value);
+  function addToTable(subresult, result, position) {
+    $("#" + position).text('subresult: ' + subresult + '\n' + 'result: ' + result);
+  }
+
+  function printResults(results) {
+    $("#list_label").remove();
+    $("#list").remove();
+    $(".result_list").append('<label id="list_label">Results:</label>')
+    $(".result_list").append('<ol type="1" id="list">');
+    list = $('#list');
+    for (var i = 0; i < results.length; i++) {
+      list.append('<li>' + results[i] + '</li>');
+    }
   }
 })
